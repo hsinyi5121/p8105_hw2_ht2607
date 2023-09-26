@@ -1,0 +1,15 @@
+---
+title: "p8105_hw2_ht2607"
+output: github_document
+---
+
+## Question 1
+
+```{r setup, include=FALSE}
+library(tidyverse)
+```
+
+```{r}
+pols_month_df = read_csv(file = "./fivethirtyeight_datasets/pols-month.csv")
+```
+
