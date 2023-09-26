@@ -7,10 +7,15 @@ output: github_document
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+library(tidyr)
 ```
 
 ```{r}
 pols_month_df = read_csv(file = "./fivethirtyeight_datasets/pols-month.csv") |>
-  janitor::clean_names(pols_month_df)
+  janitor::clean_names(pols_month_df) |>
+  pols_month_df <- pols_month_df %>%
+  separate(mon, into = c("year", "month", "day"), sep = "-")
+
+  
 ```
 
