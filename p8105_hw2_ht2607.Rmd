@@ -61,3 +61,18 @@ trash_df_tidy =
   janitor::clean_names()
 ```
 
+```{r}
+sum(trash_df_tidy[trash_df_tidy$trash_wheel == "professor trash",]$weight_tons)
+```
+```{r}
+sum(trash_df_tidy[trash_df_tidy$trash_wheel == "gwynnda" & trash_df_tidy$year== 2021 & trash_df_tidy$month== "July",]$cigarette_butts, na.rm = T)
+```
+
+Write a paragraph about these data; you are encouraged to use inline R. Be sure to note the number of observations in the resulting dataset, and give examples of key variables. For available data, what was the total weight of trash collected by Professor Trash Wheel? What was the total number of cigarette butts collected by Gwynnda in July of 2021?
+
+The total weight of trash collected by Professor Trash Wheel is  380.24.
+The total number of cigarette butts collected by Gwynnda in July of 2021 is 380.24.
+
+## Question 3
+
+
