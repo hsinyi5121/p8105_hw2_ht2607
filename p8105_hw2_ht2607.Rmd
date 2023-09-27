@@ -43,3 +43,21 @@ gwynnda_df= read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet =
   mutate(homes_powered = weight_tons*500/30)
 ```
 
+```{r}
+mr_trash_df = 
+  readxl::read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel") |>
+  mutate(trash_wheel = "mr.trash")
+
+professor_trash_df = 
+  readxl::read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel") |>
+  mutate(trash_wheel = "professor trash")
+
+gwynnda_df = 
+  readxl::read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Gwynnda Trash Wheel") |>
+  mutate(trash_wheel = "gwynnda")
+
+trash_df_tidy = 
+  bind_rows(mr_trash_df, professor_trash_df, gwynnda_df) |>
+  janitor::clean_names()
+```
+
