@@ -77,6 +77,13 @@ The total number of cigarette butts collected by Gwynnda in July of 2021 is 380.
 
 ```{r}
 mci_df = read_csv(file = "./data_mci/MCI_baseline.csv") |>
+  janitor::clean_names()
+
+amyloid_df = read_csv(file = "./data_mci/mci_amyloid.csv") |>
+  janitor::clean_names()
+
+mci_df_tidy = 
+  bind_rows(mci_df, amyloid_df) |>
   janitor::clean_names() |> 
   mutate_at(c("x1_male_0_female","x1_apoe4_carrier_0_apoe4_non_carrier"), as.factor)
   
