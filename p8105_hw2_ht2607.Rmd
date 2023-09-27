@@ -16,6 +16,16 @@ pols_month_df = read_csv(file = "./fivethirtyeight_datasets/pols-month.csv") |>
   pols_month_df <- pols_month_df %>%
   separate(mon, into = c("year", "month", "day"), sep = "-")
 
-  
+```
+
+## Question 2
+
+```{r}
+library(readxl)
+library(tidyverse)
+trash_wheel_collection_df = read_excel("q2data/202207 Trash Wheel Collection Data.xlsx")
+  janitor::clean_names(trash_wheel_collection_df) |> 
+  select(trash_wheel_collection_df, -Dumpster)
+
 ```
 
