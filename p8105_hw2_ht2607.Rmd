@@ -23,9 +23,16 @@ pols_month_df = read_csv(file = "./fivethirtyeight_datasets/pols-month.csv") |>
 ```{r}
 library(readxl)
 library(tidyverse)
-trash_wheel_collection_df = read_excel("q2data/202207 Trash Wheel Collection Data.xlsx")
-  janitor::clean_names(trash_wheel_collection_df) |> 
-  select(trash_wheel_collection_df, -Dumpster)
+mr_trash_df = read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Mr. Trash Wheel") |> 
+  janitor::clean_names() |> 
+  drop_na(dumpster) |> 
+  mutate(homes_powered = weight_tons*500/30)
+```
 
+```{r}
+professor_trash_df = read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel") |> 
+  janitor::clean_names() |> 
+  drop_na(dumpster) |> 
+  mutate(homes_powered = weight_tons*500/30)
 ```
 
