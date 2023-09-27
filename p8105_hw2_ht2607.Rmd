@@ -36,3 +36,10 @@ professor_trash_df = read_excel("q2data/202207 Trash Wheel Collection Data.xlsx"
   mutate(homes_powered = weight_tons*500/30)
 ```
 
+```{r}
+gwynnda_df= read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Gwynnda Trash Wheel") |> 
+  janitor::clean_names() |> 
+  drop_na(dumpster) |> 
+  mutate(homes_powered = weight_tons*500/30)
+```
+
