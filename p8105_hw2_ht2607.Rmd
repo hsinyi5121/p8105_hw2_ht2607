@@ -12,10 +12,10 @@ library(tidyr)
 
 ```{r}
 pols_month_df = read_csv(file = "./fivethirtyeight_datasets/pols-month.csv") |>
-  janitor::clean_names(pols_month_df) |>
-  pols_month_df <- pols_month_df %>%
-  separate(mon, into = c("year", "month", "day"), sep = "-")
-
+  janitor::clean_names()
+  pols_month_df <- pols_month_df |> 
+  separate(mon, into = c("year", "month", "day"))
+  View(pols_month_df)
 ```
 
 ## Question 2
@@ -87,14 +87,19 @@ mci_df = read_csv(file = "./data_mci/MCI_baseline.csv", skip = 1, na = ".") |>
         0 ~ "female"),
    sex = as.factor(sex))
 
-amyloid_df = read_csv(file = "./data_mci/mci_amyloid.csv") |>
+amyloid_df = read_csv(file = "./data_mci/mci_amyloid.csv", skip = 1, na = "NA") |>
   janitor::clean_names() |> 
-  select(-na_3, -na_4, -na_5, -na_6) |> 
-  mutate(id = study_id)
+  drop_na(time_2, time_4, time_6, time_8) |> 
+  mutate(
+   study_id = as.numeric(study_id)) |> 
+  rename(id = study_id)
 
 mci_df_tidy = 
- left_join(mci_df, amyloid_df , by = "id") 
-  
+ left_join(mci_df, amyloid_df , by = "id") |> 
+  janitor::clean_names() |> 
+  filter(age_at_onset > current_age | is.na(age_at_onset))
+
+
   
 ```
 
