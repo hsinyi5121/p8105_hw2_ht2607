@@ -95,11 +95,20 @@ amyloid_df = read_csv(file = "./data_mci/mci_amyloid.csv", skip = 1, na = "NA") 
   rename(id = study_id)
 
 mci_df_tidy = 
- left_join(mci_df, amyloid_df , by = "id") |> 
+ inner_join(mci_df, amyloid_df , by = "id") |> 
   janitor::clean_names() |> 
   filter(age_at_onset > current_age | is.na(age_at_onset))
+```
 
-
-  
+```{r}
+mci_df_tidy = 
+  bind_rows(time_2, time_4, time_6, time_8) |>
+  janitor::clean_names() |>
+  pivot_longer(
+    female:male,
+    names_to = "gender", 
+    values_to = "words") |>
+  mutate(race = str_to_lower(race)) |> 
+  select(movie, everything()) 
 ```
 
