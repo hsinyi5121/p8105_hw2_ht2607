@@ -134,16 +134,22 @@ mci_df_tidy =
 ```
 
 ```{r}
-mci_df_tidy = 
-  bind_rows(time_2, time_4, time_6, time_8) |>
-  janitor::clean_names() |>
-  pivot_longer(
-    female:male,
-    names_to = "gender", 
-    values_to = "words") |>
-  mutate(race = str_to_lower(race)) |> 
-  select(movie, everything()) 
+nrow(mci_df_tidy)
+mean(mci_df_tidy$current_age)
+
+women_apoe_df= filter(mci_df_tidy, sex == "female")
+table(women_apoe_df$apoe4)/ nrow(women_apoe_df)
 ```
+There are 63 participants that were recruited. 
+63 of them develop MCI (need to ask which vairble should look at).
+The average baseline age is at 65.69 (double ckeck with this).
+0.65625 is the proportion of women in the study are APOE4 carriers.
+
+Question ask: about biomarker
+```{r}
+biomarker_tidy = 
+```
+
 
 ```{r}
 
