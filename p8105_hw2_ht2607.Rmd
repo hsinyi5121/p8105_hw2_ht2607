@@ -11,11 +11,44 @@ library(tidyr)
 ```
 
 ```{r}
-pols_month_df = read_csv(file = "./fivethirtyeight_datasets/pols-month.csv") |>
-  janitor::clean_names()
-  pols_month_df <- pols_month_df |> 
-  separate(mon, into = c("year", "month", "day"))
-  View(pols_month_df)
+month_df = 
+  tibble(
+    month_num = 1:12,
+    month_abb = month.abb,
+    month = month.name
+  )
+
+pols = 
+  read_csv("./data/fivethirtyeight_datasets/pols-month.csv") |>
+  separate(mon, into = c("year", "month_num", "day"), convert = TRUE) |>
+  mutate(
+    president = recode(prez_gop, "0" = "dem", "1" = "gop", "2" = "gop")) |>
+  left_join(x = _, y = month_df) |> 
+  select(year, month, everything(), -day, -starts_with("prez")) 
+
+snp = 
+  read_csv("./data/fivethirtyeight_datasets/snp.csv") |>
+  separate(date, into = c("month", "day", "year"), convert = TRUE) |>
+  arrange(year, month) |>
+  mutate(month = month.name[month]) |>
+  select(year, month, close) 
+
+unemployment = 
+  read_csv("./data/fivethirtyeight_datasets/unemployment.csv") |>
+  rename(year = Year) |>
+  pivot_longer(
+    Jan:Dec, 
+    names_to = "month_abb",
+    values_to = "unemployment"
+  ) |> 
+  left_join(x = _, y = month_df) |> 
+  select(year, month, unemployment)
+
+data_538 = 
+  left_join(pols, snp) |>
+  left_join(x = _, y = unemployment)
+
+str(data_538)
 ```
 
 ## Question 2
@@ -110,5 +143,9 @@ mci_df_tidy =
     values_to = "words") |>
   mutate(race = str_to_lower(race)) |> 
   select(movie, everything()) 
+```
+
+```{r}
+
 ```
 
