@@ -56,21 +56,21 @@ str(data_538)
 ```{r}
 library(readxl)
 library(tidyverse)
-mr_trash_df = read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Mr. Trash Wheel") |> 
+mr_trash_df = read_excel("q2data/202309 Trash Wheel Collection Data.xlsx", sheet = "Mr. Trash Wheel") |> 
   janitor::clean_names() |> 
   drop_na(dumpster) |> 
   mutate(homes_powered = weight_tons*500/30)
 ```
 
 ```{r}
-professor_trash_df = read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel") |> 
+professor_trash_df = read_excel("q2data/202309 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel") |> 
   janitor::clean_names() |> 
   drop_na(dumpster) |> 
   mutate(homes_powered = weight_tons*500/30)
 ```
 
 ```{r}
-gwynnda_df= read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Gwynnda Trash Wheel") |> 
+gwynnda_df= read_excel("q2data/202309 Trash Wheel Collection Data.xlsx", sheet = "Gwynnda Trash Wheel") |> 
   janitor::clean_names() |> 
   drop_na(dumpster) |> 
   mutate(homes_powered = weight_tons*500/30)
@@ -78,15 +78,15 @@ gwynnda_df= read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet =
 
 ```{r}
 mr_trash_df = 
-  readxl::read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel") |>
+  readxl::read_excel("q2data/202309 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel") |>
   mutate(trash_wheel = "mr.trash")
 
 professor_trash_df = 
-  readxl::read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel") |>
+  readxl::read_excel("q2data/202309 Trash Wheel Collection Data.xlsx", sheet = "Professor Trash Wheel") |>
   mutate(trash_wheel = "professor trash")
 
 gwynnda_df = 
-  readxl::read_excel("q2data/202207 Trash Wheel Collection Data.xlsx", sheet = "Gwynnda Trash Wheel") |>
+  readxl::read_excel("q2data/202309 Trash Wheel Collection Data.xlsx", sheet = "Gwynnda Trash Wheel") |>
   mutate(trash_wheel = "gwynnda")
 
 trash_df_tidy = 
@@ -123,15 +123,26 @@ mci_df = read_csv(file = "./data_mci/MCI_baseline.csv", skip = 1, na = ".") |>
 amyloid_df = read_csv(file = "./data_mci/mci_amyloid.csv", skip = 1, na = "NA") |>
   janitor::clean_names() |> 
   drop_na(time_2, time_4, time_6, time_8) |> 
-  mutate(
+mutate(
    study_id = as.numeric(study_id)) |> 
   rename(id = study_id)
+ 
+amyloid_df_tidy = 
+pivot_longer(
+  amyloid_df,
+    cols=c(time_2, time_4, time_6, time_8), 
+    names_to = "time",
+    values_to = "biomarker")
 
 mci_df_tidy = 
- inner_join(mci_df, amyloid_df , by = "id") |> 
+ inner_join(mci_df, amyloid_df_tidy , by = "id") |> 
   janitor::clean_names() |> 
   filter(age_at_onset > current_age | is.na(age_at_onset))
 ```
+
+The important steps when importing the dataset is to filter the dataset so only keep 
+the necessary variable when combining the dataset from the import files. 
+It is 
 
 ```{r}
 nrow(mci_df_tidy)
@@ -140,15 +151,14 @@ mean(mci_df_tidy$current_age)
 women_apoe_df= filter(mci_df_tidy, sex == "female")
 table(women_apoe_df$apoe4)/ nrow(women_apoe_df)
 ```
-There are 63 participants that were recruited. 
+There are 252 participants that were recruited. 
 63 of them develop MCI (need to ask which vairble should look at).
 The average baseline age is at 65.69 (double ckeck with this).
 0.65625 is the proportion of women in the study are APOE4 carriers.
 
-Question ask: about biomarker
-```{r}
-biomarker_tidy = 
-```
+1. need to explain step by step (answer the question step by step) --> apply to all questions
+2. pivot longer from basline (year 0)
+3. last step is to combine mci and amy
 
 
 ```{r}
