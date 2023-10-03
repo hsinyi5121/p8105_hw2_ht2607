@@ -218,5 +218,9 @@ women_apoe_df= filter(mci_df_tidy, sex == "female")
 table(women_apoe_df$apoe4)/ nrow(women_apoe_df)
 ```
 
+Step 5: Exporting the file as a CSV to my data directory
 
+```{r}
+write.csv(mci_df_tidy, "C:\\Users\\Cindy\\Desktop\\p8105_hw2_ht2607\\hw2.csv", row.names=FALSE)
+```
 
